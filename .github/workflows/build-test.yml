@@ -100,6 +100,9 @@ jobs:
           file: ./${{ steps.short-version.outputs.result }}/${{ matrix.variant }}/Dockerfile
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.version }}-${{ matrix.variant }}
 
+      - name: List images
+        run: docker images
+
       - name: Test for node version
         run: |
           image_node_version=$(docker run --rm node:${{ matrix.version }}-${{ matrix.variant }} node --print "process.versions.node")
