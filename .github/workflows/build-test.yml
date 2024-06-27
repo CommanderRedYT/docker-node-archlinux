@@ -71,7 +71,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v6
         with:
-          push: false
+          push: ${{ github.repository_owner == 'CommanderRedYT' }}
           load: true
           context: .
           file: ./${{ steps.short-version.outputs.result }}/${{ matrix.variant }}/Dockerfile
