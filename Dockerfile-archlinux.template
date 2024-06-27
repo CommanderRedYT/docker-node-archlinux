@@ -7,18 +7,23 @@ ENV YARN_VERSION 0.0.0
 RUN useradd -m -u 1000 -U node \
     && pacman -Syu --noconfirm \
     && pacman -S --noconfirm \
-        gcc \
-        make \
-        python \
-        git \
+    $(if [[ "$NODE_VERSION" == 18.* ]]; then echo "nodejs-lts-hydrogen"; elif [[ "$NODE_VERSION" == 20.* ]]; then echo "nodejs-lts-iron"; else echo "nodejs"; fi) \
         npm \
     && npm install -g npm@latest \
     && npm install -g yarn@latest \
-    && pacman -R --noconfirm gcc make python git \
     && rm -rf /var/cache/pacman/pkg/* \
-    && node --version \
-    && npm --version \
-    && yarn --version
+    && npm cache clean --force \
+    && yarn cache clean --force
+
+RUN echo "node --version: $(node --version)" \
+    && echo "npm --version: $(npm --version)" \
+    && echo "yarn --version: $(yarn --version)" \
+    && INSTALLED_NODE_VERSION=$(node --version) \
+    && INSTALLED_YARN_VERSION=$(yarn --version) \
+    # check if node --version is the same as NODE_VERSION
+    && if [ "v$NODE_VERSION" != "$INSTALLED_NODE_VERSION" ]; then echo "node --version does not match NODE_VERSION (should be v$NODE_VERSION but is $INSTALLED_NODE_VERSION)"; exit 1; fi \
+    # check if yarn --version is the same as YARN_VERSION
+    && if [ "$YARN_VERSION" != "$INSTALLED_YARN_VERSION" ]; then echo "yarn --version does not match YARN_VERSION (should be $YARN_VERSION but is $INSTALLED_YARN_VERSION)"; exit 1; fi
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
