@@ -193,6 +193,17 @@ function is_debian_slim() {
   return 1
 }
 
+function is_archlinux() {
+  local variant
+  variant=$1
+  shift
+
+  if [ "${variant}" = "archlinux" ]; then
+    return 0
+  fi
+  return 1
+}
+
 function get_fork_name() {
   local version
   version=$1

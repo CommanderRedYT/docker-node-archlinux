@@ -8,6 +8,9 @@
     "alpine-default": "alpine3.20",
     "debian-default": "bookworm",
     "variants": {
+      "archlinux": [
+        "amd64"
+      ],
       "alpine3.19": [
         "amd64",
         "arm32v6",
@@ -63,6 +66,9 @@
     "alpine-default": "alpine3.20",
     "debian-default": "bookworm",
     "variants": {
+      "archlinux": [
+        "amd64"
+      ],
       "alpine3.19": [
         "amd64",
         "arm32v6",
@@ -126,6 +132,9 @@
     "alpine-default": "alpine3.20",
     "debian-default": "bookworm",
     "variants": {
+      "archlinux": [
+        "amd64"
+      ],
       "alpine3.19": [
         "amd64",
         "arm32v6",

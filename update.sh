@@ -167,6 +167,8 @@ function update_node_version() {
       sed -Ei -e "s/(buildpack-deps:)name/\\1${variant}/" "${dockerfile}-tmp"
     elif is_debian_slim "${variant}"; then
       sed -Ei -e "s/(debian:)name-slim/\\1${variant}/" "${dockerfile}-tmp"
+    elif is_archlinux "${variant}"; then
+      sed -Ei -e "s/(archlinux:)name/\\1${variant}/" "${dockerfile}-tmp"
     fi
 
     if diff -q "${dockerfile}-tmp" "${dockerfile}" > /dev/null; then
@@ -223,6 +225,8 @@ for version in "${versions[@]}"; do
       template_file="${parentpath}/Dockerfile-slim.template"
     elif is_alpine "${variant}"; then
       template_file="${parentpath}/Dockerfile-alpine.template"
+    elif is_archlinux "${variant}"; then
+      template_file="${parentpath}/Dockerfile-archlinux.template"
     fi
 
     cp "${parentpath}/docker-entrypoint.sh" "${version}/${variant}/docker-entrypoint.sh"
