@@ -1,4 +1,4 @@
-FROM archlinux
+FROM archlinux:latest
 
 ENV NODE_VERSION 22.3.0
 

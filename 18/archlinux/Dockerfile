@@ -1,4 +1,4 @@
-FROM archlinux
+FROM archlinux:latest
 
 ENV NODE_VERSION 18.20.3
 
