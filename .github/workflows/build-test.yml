@@ -81,13 +81,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build image
+        if: github.repository_owner != 'CommanderRedYT'
         uses: docker/build-push-action@v6
         with:
-          push: ${{ github.repository_owner == 'CommanderRedYT' }}
+          push: false
           load: true
           context: .
           file: ./${{ steps.short-version.outputs.result }}/${{ matrix.variant }}/Dockerfile
           tags: node:${{ matrix.version }}-${{ matrix.variant }}
+
+      - name: Build and push image
+        if: github.repository_owner == 'CommanderRedYT'
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          load: true
+          context: .
+          file: ./${{ steps.short-version.outputs.result }}/${{ matrix.variant }}/Dockerfile
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.version }}-${{ matrix.variant }}
 
       - name: Test for node version
         run: |
